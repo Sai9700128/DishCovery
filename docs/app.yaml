@@ -1,0 +1,258 @@
+openapi: 3.0.3
+info:
+  title: DishCovery API
+  description: API for user management, recipe search, and favorites in the DishCovery application.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000
+    description: Local development server
+
+paths:
+  /api/auth/register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: User registered successfully
+        '409':
+          description: Email already in use
+
+  /api/auth/login:
+    post:
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                  userId:
+                    type: string
+        '401':
+          description: Invalid email or password
+
+  /api/users/profile:
+    get:
+      summary: Get user profile
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+        '404':
+          description: User not found
+
+    put:
+      summary: Update user profile
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+      responses:
+        '200':
+          description: Profile updated successfully
+        '400':
+          description: Invalid profile data
+
+  /api/recipes/search:
+    get:
+      summary: Search for recipes
+      parameters:
+        - name: query
+          in: query
+          schema:
+            type: string
+          required: true
+          description: Search query for recipes
+      responses:
+        '200':
+          description: List of recipes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recipe'
+
+  /api/recipes/{recipeId}:
+    get:
+      summary: Get recipe details
+      parameters:
+        - name: recipeId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Recipe details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Recipe'
+        '404':
+          description: Recipe not found
+
+  /api/users/favorites:
+    post:
+      summary: Save a favorite recipe
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                recipeId:
+                  type: string
+      responses:
+        '201':
+          description: Favorite saved successfully
+
+    get:
+      summary: Get favorite recipes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of favorite recipes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Recipe'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        userId:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        fullName:
+          type: string
+        profile:
+          $ref: '#/components/schemas/Profile'
+        favorites:
+          type: array
+          items:
+            $ref: '#/components/schemas/Favorite'
+
+    Profile:
+      type: object
+      properties:
+        profileId:
+          type: string
+        userId:
+          type: string
+        preferences:
+          type: string
+        savedRecipes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Recipe'
+
+    Favorite:
+      type: object
+      properties:
+        favoriteId:
+          type: string
+        userId:
+          type: string
+        recipeId:
+          type: string
+
+    Recipe:
+      type: object
+      properties:
+        recipeId:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        ingredients:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ingredient'
+        nutrition:
+          $ref: '#/components/schemas/Nutrition'
+        instructions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Instruction'
+
+    Ingredient:
+      type: object
+      properties:
+        ingredientId:
+          type: string
+        name:
+          type: string
+        quantity:
+          type: string
+        unit:
+          type: string
+
+    Nutrition:
+      type: object
+      properties:
+        calories:
+          type: integer
+        protein:
+          type: integer
+        fat:
+          type: integer
+        carbs:
+          type: integer
+
+    Instruction:
+      type: object
+      properties:
+        stepNumber:
+          type: integer
+        description:
+          type: string
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
