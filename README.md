@@ -153,3 +153,14 @@ User --> Profile : "has a"
     Favorite --> Recipe : "saves"
     Recipe --> ExternalAPI : "fetches data from"
 ```
+
+## Explanation
+- User: Represents the main user entity, which interacts with the system.
+- Profile: Contains user preferences and saved recipes.
+- Favorite: Manages saved recipes for each user.
+- Recipe: Represents a recipe with details like ingredients, nutrition, and instructions.
+- Ingredient: Represents an ingredient used in a recipe.
+- Nutrition: Provides nutritional information for a recipe.
+- Instruction: Represents a step in the recipe instructions.
+- JWT: Handles user authentication.
+- ExternalAPI: Fetches recipe data from an external API.
