@@ -1,4 +1,4 @@
-# DishCovery
+# DishCovery -- Discover the perfect dish
 
 
 ## Overview
