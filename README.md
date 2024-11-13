@@ -15,15 +15,26 @@
   - Deployment: AWS (EC2, S3) or Vercel for frontend
 
 ## Core Features
- - User Registration and Login
- - Users can sign up and log in to access personalized features.
- - Recipe Search
- - Search for recipes by ingredients, cuisine, or dietary preferences.
- - Recipe Details
- - View detailed information about each recipe, including ingredients, cooking instructions, and nutritional info.
- - User Profile
- - Users can save favorite recipes and create custom recipe collections.
- - API Integration
- - Integrate with an external recipe API for extensive recipe data.
- - Responsive Design
- - The application will be mobile-friendly.
+ - User Registration and Login :- Users can sign up and log in to access personalized features.
+ - Recipe Search :- Search for recipes by ingredients, cuisine, or dietary preferences.
+ - Recipe Details :- View detailed information about each recipe, including ingredients, cooking instructions, and nutritional info.
+ - User Profile :- Users can save favorite recipes and create custom recipe collections.
+ - API Integration :- Integrate with an external recipe API for extensive recipe data.
+ - Responsive Design :- The application will be mobile-friendly.
+
+## High-Level Architecture
+      
+    Frontend (ReactJS)
+
+    Pages: Home, Search, Recipe Details, User Profile, Login, Registration.
+    Components: Navbar, RecipeCard, SearchBar, RecipeDetails, UserProfile.
+    State Management: Context API or Redux (for managing global state).
+    Backend (Node.js, Express)
+
+    Routes: /api/users, /api/recipes, /api/search.
+    Controllers: UserController, RecipeController.
+    Middleware: Authentication (JWT), Error Handling.
+    Database Models: User, Recipe, Favorite.
+    Database (MongoDB)
+    
+    Collections: users, recipes, favorites.
