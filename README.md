@@ -24,17 +24,43 @@
 
 ## High-Level Architecture
       
-    Frontend (ReactJS)
+  ~ Frontend (ReactJS)
 
     Pages: Home, Search, Recipe Details, User Profile, Login, Registration.
     Components: Navbar, RecipeCard, SearchBar, RecipeDetails, UserProfile.
     State Management: Context API or Redux (for managing global state).
     Backend (Node.js, Express)
 
-    Routes: /api/users, /api/recipes, /api/search.
+  ~ Routes: /api/users, /api/recipes, /api/search.
     Controllers: UserController, RecipeController.
     Middleware: Authentication (JWT), Error Handling.
     Database Models: User, Recipe, Favorite.
     Database (MongoDB)
     
-    Collections: users, recipes, favorites.
+  ~ Collections: users, recipes, favorites.
+
+## API Endpoints
+- User Registration (/api/users/register)
+
+    ~ Method: POST
+    ~ Request Body: email, password, fullName
+    ~ Response: 201 Created
+    ~ User Login (/api/users/login)
+
+- Method: POST
+    ~ Request Body: email, password
+    ~ Response: 200 OK with JWT token
+    ~ Search Recipes (/api/recipes/search)
+
+- Method: GET
+    ~ Query Params: ingredients, cuisine, diet
+    ~ Response: List of recipes
+    ~ Get Recipe Details (/api/recipes/{recipeId})
+
+- Method: GET
+    ~ Response: Recipe details
+    ~ Save Favorite Recipe (/api/users/{userId}/favorites)
+
+- Method: POST
+    ~ Request Body: recipeId
+    ~ Response: 201 Created
